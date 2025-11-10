@@ -10,11 +10,23 @@ using System.Windows.Forms;
 
 namespace SIGO_WinForm
 {
-    public partial class Form1 : Form
+    public partial class Index : Form
     {
-        public Form1()
+        public Index()
         {
             InitializeComponent();
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void modulo1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPacientes pacientes = new frmPacientes();
+            pacientes.MdiParent = this;
+            pacientes.Show();
         }
     }
 }
