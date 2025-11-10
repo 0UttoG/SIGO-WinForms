@@ -1,0 +1,53 @@
+## Build results
+
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Aa]rm/
+[Aa]rm64/
+[Ii]t/
+[Xx]64/
+[Xx]86/
+
+# Packages and Dependencies
+[Pp]ackages/
+*.nupkg
+*.suo
+*.user
+*.userprefs
+**.vs/
+
+## Visual Studio
+# Project files
+*.obj
+*.pdb
+*.log
+*.bak
+*.cache
+*.ncb
+*.aps
+*.pch
+*.idb
+*.opensdf
+*.sdf
+*.tlog
+
+# User files
+*.vsscc
+*.vspscc
+*.vssscc
+
+# Test results
+TestResults/
+
+# Resharper/Rider files
+*.DotSettings
+*.suo
+
+# NuGet files
+*.nuget.g.props
+*.nuget.g.targets
+
+# Miscellaneous
+[Tt]humbs.db
