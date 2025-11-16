@@ -185,7 +185,7 @@ namespace SIGO_WinForm
             }
         }
 
-        // (Recuerda conectar este evento en el diseñador ⚡)
+       
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (idProductoSeleccionado == null)

@@ -40,5 +40,12 @@ namespace SIGO_WinForm
             Inventario.MdiParent = this;
             Inventario.Show();
         }
+
+        private void puntoDeVentaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmVentaPOS PuntodeVenta = new frmVentaPOS();
+            PuntodeVenta.MdiParent = this;
+            PuntodeVenta.Show();
+        }
     }
 }
