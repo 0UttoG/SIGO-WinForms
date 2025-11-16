@@ -30,35 +30,47 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.modulo1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inventaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modulo1ToolStripMenuItem});
+            this.modulo1ToolStripMenuItem,
+            this.inventaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1067, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // modulo1ToolStripMenuItem
             // 
             this.modulo1ToolStripMenuItem.Name = "modulo1ToolStripMenuItem";
-            this.modulo1ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.modulo1ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
             this.modulo1ToolStripMenuItem.Text = "modulo1";
             this.modulo1ToolStripMenuItem.Click += new System.EventHandler(this.modulo1ToolStripMenuItem_Click);
             // 
+            // inventaToolStripMenuItem
+            // 
+            this.inventaToolStripMenuItem.Name = "inventaToolStripMenuItem";
+            this.inventaToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
+            this.inventaToolStripMenuItem.Text = "Inventario";
+            this.inventaToolStripMenuItem.Click += new System.EventHandler(this.inventaToolStripMenuItem_Click);
+            // 
             // Index
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Index";
             this.Text = "inicio";
+            this.Load += new System.EventHandler(this.Index_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -70,6 +82,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem modulo1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inventaToolStripMenuItem;
     }
 }
 

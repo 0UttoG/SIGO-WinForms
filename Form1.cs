@@ -28,5 +28,17 @@ namespace SIGO_WinForm
             pacientes.MdiParent = this;
             pacientes.Show();
         }
+
+        private void Index_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void inventaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmInventario Inventario = new frmInventario();
+            Inventario.MdiParent = this;
+            Inventario.Show();
+        }
     }
 }

@@ -292,5 +292,10 @@ namespace SIGO_WinForm
                 MessageBox.Show($"Error al buscar pacientes: {ex.Message}", "Error de Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
