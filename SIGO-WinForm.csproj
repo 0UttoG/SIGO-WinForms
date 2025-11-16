@@ -58,6 +58,12 @@
     <Compile Include="frmInventario.Designer.cs">
       <DependentUpon>frmInventario.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmOrdenesTrabajo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOrdenesTrabajo.Designer.cs">
+      <DependentUpon>frmOrdenesTrabajo.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPacientes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +88,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmInventario.resx">
       <DependentUpon>frmInventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOrdenesTrabajo.resx">
+      <DependentUpon>frmOrdenesTrabajo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPacientes.resx">
       <DependentUpon>frmPacientes.cs</DependentUpon>

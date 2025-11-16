@@ -32,6 +32,7 @@
             this.modulo1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.puntoDeVentaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ordenesDeTrabajoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,7 +42,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modulo1ToolStripMenuItem,
             this.inventaToolStripMenuItem,
-            this.puntoDeVentaToolStripMenuItem});
+            this.puntoDeVentaToolStripMenuItem,
+            this.ordenesDeTrabajoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1067, 28);
@@ -69,6 +71,13 @@
             this.puntoDeVentaToolStripMenuItem.Text = "Punto de Venta";
             this.puntoDeVentaToolStripMenuItem.Click += new System.EventHandler(this.puntoDeVentaToolStripMenuItem_Click);
             // 
+            // ordenesDeTrabajoToolStripMenuItem
+            // 
+            this.ordenesDeTrabajoToolStripMenuItem.Name = "ordenesDeTrabajoToolStripMenuItem";
+            this.ordenesDeTrabajoToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
+            this.ordenesDeTrabajoToolStripMenuItem.Text = "Ordenes de Trabajo";
+            this.ordenesDeTrabajoToolStripMenuItem.Click += new System.EventHandler(this.ordenesDeTrabajoToolStripMenuItem_Click);
+            // 
             // Index
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -93,6 +102,7 @@
         private System.Windows.Forms.ToolStripMenuItem modulo1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inventaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem puntoDeVentaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ordenesDeTrabajoToolStripMenuItem;
     }
 }
 

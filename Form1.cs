@@ -47,5 +47,12 @@ namespace SIGO_WinForm
             PuntodeVenta.MdiParent = this;
             PuntodeVenta.Show();
         }
+
+        private void ordenesDeTrabajoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmOrdenesTrabajo OrdenesdeTrabajo = new frmOrdenesTrabajo();
+            OrdenesdeTrabajo.MdiParent = this;
+            OrdenesdeTrabajo.Show();
+        }
     }
 }
