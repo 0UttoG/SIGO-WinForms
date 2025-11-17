@@ -12,14 +12,14 @@ using System.Windows.Forms;
 namespace SIGO_WinForm
 {
     public partial class frmPacientes : Form
-
     {
         string idpaciente;
 
-        // --- ¡AQUÍ ESTÁ LA LÍNEA #1 QUE FALTABA! ---
-        // Instanciamos el adaptador de Pacientes Y el de Exámenes
+        // Instanciamos TODOS los adaptadores que necesita este formulario
         PacientesTableAdapter pacientes = new PacientesTableAdapter();
         ExamenesTableAdapter adaptadorExamenes = new ExamenesTableAdapter();
+        VentasTableAdapter adaptadorVentas = new VentasTableAdapter();
+        OrdenesTrabajoTableAdapter adaptadorOrdenes = new OrdenesTrabajoTableAdapter();
 
 
         public frmPacientes()
@@ -34,12 +34,12 @@ namespace SIGO_WinForm
 
         private void dgvPacientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Puedes usar este evento si quieres cargar datos al hacer clic en una celda
+            // Este evento está conectado por error en el Designer, pero lo ignoramos.
+            // Usamos dgvPacientes_CellClick en su lugar.
         }
 
         public void cargarpacientes()
         {
-            // (Tu código original, está perfecto)
             try
             {
                 dgvPacientes.DataSource = pacientes.GetData();
@@ -52,7 +52,7 @@ namespace SIGO_WinForm
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
-            // (Tu código original, está perfecto)
+            // (Tu código de 'Nuevo' está perfecto)
             string nombre = txtNombreCompleto.Text.Trim();
             string telefono = txtTelefono.Text.Trim();
             string direccion = txtDireccion.Text.Trim();
@@ -152,34 +152,60 @@ namespace SIGO_WinForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al obtener los datos de la fila: {ex.Message}\n\nAsegúrese de que su columna de ID se llame 'Id'.", "Error de Selección", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al obtener los datos de la fila: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // --- ¡AQUÍ ESTÁ LA NUEVA ESTRATEGIA! ---
         private void dgvPacientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Verificamos que el clic no sea en el encabezado (e.RowIndex < 0)
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvPacientes.Rows[e.RowIndex];
                 try
                 {
-                    // Rellenamos los campos de texto con los valores de la fila
+                    // 1. Rellenamos los campos (esto ya lo tenías)
                     idpaciente = row.Cells["PacienteID"].Value.ToString();
                     txtNombreCompleto.Text = row.Cells["NombreCompleto"].Value.ToString();
                     txtTelefono.Text = row.Cells["Telefono"].Value.ToString();
                     txtDireccion.Text = row.Cells["Direccion"].Value.ToString();
                     txtEmail.Text = row.Cells["Email"].Value.ToString();
 
-                    // --- ¡AQUÍ ESTÁ LA LÍNEA #2 QUE FALTABA! ---
-                    // Cargamos el historial de exámenes en el dgvExamenes
                     int pacienteID = Convert.ToInt32(idpaciente);
+
+                    // 2. Cargamos el historial de exámenes (esto ya lo tenías)
                     dgvExamenes.DataSource = adaptadorExamenes.GetDataByPacienteID(pacienteID);
 
+                    // --- 3. Cargamos el Historial de Compras (Nuevo Método) ---
+                    // Primero, cargamos las ventas de este paciente
+                    var ventas = adaptadorVentas.GetDataByPacienteID(pacienteID);
+                    dgvVentasHistorial.DataSource = ventas;
+
+                    // --- 4. Cargamos las Órdenes de Laboratorio (Nuevo Método) ---
+                    // Creamos una tabla temporal vacía para ir metiendo las órdenes
+                    SIGO_DBDataSet.OrdenesTrabajoDataTable tablaOrdenesTemp = new SIGO_DBDataSet.OrdenesTrabajoDataTable();
+
+                    // Recorremos cada VENTA que encontramos
+                    foreach (DataRow ventaRow in ventas.Rows)
+                    {
+                        int ventaID = (int)ventaRow["VentaID"];
+
+                        // Usamos la nueva consulta 'GetDataByVentaID'
+                        var ordenes = adaptadorOrdenes.GetDataByVentaID(ventaID);
+
+                        // Si encontramos órdenes para esa venta, las copiamos a nuestra tabla temporal
+                        if (ordenes.Rows.Count > 0)
+                        {
+                            tablaOrdenesTemp.Merge(ordenes);
+                        }
+                    }
+
+                    // Finalmente, mostramos la tabla temporal (llena o vacía) en el grid
+                    dgvOrdenesHistorial.DataSource = tablaOrdenesTemp;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al seleccionar la fila: {ex.Message}\nAsegúrese de que los nombres de las columnas sean correctos.", "Error de Selección", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error al seleccionar la fila: {ex.Message}", "Error de Selección", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -278,11 +304,6 @@ namespace SIGO_WinForm
 
         // --- Tus eventos fantasma (los dejamos) ---
         private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

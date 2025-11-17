@@ -18,7 +18,7 @@ namespace SIGO_WinForm
         ProductosTableAdapter adaptadorProductos = new ProductosTableAdapter();
         VentasTableAdapter adaptadorVentas = new VentasTableAdapter();
         DetalleVentasTableAdapter adaptadorDetalle = new DetalleVentasTableAdapter();
-        OrdenesTrabajoTableAdapter adaptadorOrdenes = new OrdenesTrabajoTableAdapter(); // <-- AÑADIDO
+        OrdenesTrabajoTableAdapter adaptadorOrdenes = new OrdenesTrabajoTableAdapter();
 
         // --- 2. Variables para guardar el estado de la venta ---
         DataTable carrito = new DataTable();
@@ -39,8 +39,6 @@ namespace SIGO_WinForm
         }
 
         // --- 4. Métodos de Configuración Inicial ---
-
-        // Prepara el DataGridView del carrito
         private void ConfigurarCarrito()
         {
             carrito.Columns.Add("ProductoID", typeof(int));
@@ -53,7 +51,6 @@ namespace SIGO_WinForm
             dgvCarrito.DataSource = carrito;
         }
 
-        // Llena el ComboBox de métodos de pago
         private void CargarMetodosPago()
         {
             cmbMetodoPago.Items.Add("Efectivo");
@@ -61,7 +58,6 @@ namespace SIGO_WinForm
             cmbMetodoPago.SelectedIndex = 0;
         }
 
-        // Llena el ComboBox de Productos
         private void CargarProductosEnComboBox()
         {
             try
@@ -78,15 +74,12 @@ namespace SIGO_WinForm
         }
 
         // --- 5. Evento DropDown del ComboBox de Productos ---
-        // (Para que se actualice si creaste un producto nuevo)
-        // (Recuerda conectar este evento en el diseñador ⚡)
         private void cmbProducto_DropDown(object sender, EventArgs e)
         {
             CargarProductosEnComboBox();
         }
 
         // --- 6. Botón "Buscar Paciente" ---
-        // (Recuerda conectar este evento en el diseñador ⚡)
         private void btnBuscarPaciente_Click(object sender, EventArgs e)
         {
             string busqueda = txtBuscarPaciente.Text;
@@ -126,9 +119,7 @@ namespace SIGO_WinForm
             }
         }
 
-        // ---- INICIO DE CÓDIGO NUEVO ----
         // --- 7. Botón "Agregar al Carrito" ---
-        // (Recuerda conectar este evento en el diseñador ⚡)
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             if (cmbProducto.SelectedValue == null)
@@ -139,7 +130,6 @@ namespace SIGO_WinForm
 
             try
             {
-                // Obtenemos el producto de la BD (usando el método que creamos)
                 int idProducto = (int)cmbProducto.SelectedValue;
                 var productoTabla = adaptadorProductos.GetDataByProductoID(idProducto);
 
@@ -152,7 +142,6 @@ namespace SIGO_WinForm
                 var filaProducto = productoTabla[0];
                 int cantidad = (int)numCantidad.Value;
 
-                // Verificamos si hay stock
                 int stockActual = (int)filaProducto["CantidadActual"];
                 if (cantidad > stockActual)
                 {
@@ -160,7 +149,6 @@ namespace SIGO_WinForm
                     return;
                 }
 
-                // Agregamos al carrito
                 carrito.Rows.Add(
                     filaProducto["ProductoID"],
                     filaProducto["NombreProducto"],
@@ -179,36 +167,28 @@ namespace SIGO_WinForm
         // --- 8. Método para calcular y mostrar los totales ---
         private void ActualizarTotales()
         {
-            // Calculamos el subtotal sumando la columna "SubTotal" del carrito
             decimal subtotal = 0;
             if (carrito.Rows.Count > 0)
             {
                 subtotal = (decimal)carrito.Compute("SUM(SubTotal)", "");
             }
 
-            // Obtenemos el descuento
             decimal descuento = numDescuento.Value;
-
-            // Calculamos el total
             decimal total = subtotal - (subtotal * (descuento / 100));
 
-            // Mostramos en formato de moneda
             txtSubtotal.Text = subtotal.ToString("C2");
             txtTotal.Text = total.ToString("C2");
         }
 
         // --- 9. Evento si el usuario cambia el descuento ---
-        // (Recuerda conectar este evento en el diseñador ⚡)
         private void numDescuento_ValueChanged(object sender, EventArgs e)
         {
             ActualizarTotales(); // Recalculamos
         }
 
         // --- 10. Botón "Finalizar Venta" ---
-        // (Recuerda conectar este evento en el diseñador ⚡)
         private void btnFinalizarVenta_Click(object sender, EventArgs e)
         {
-            // Validaciones
             if (idPacienteSeleccionado == null)
             {
                 MessageBox.Show("Debe seleccionar un paciente para la venta.", "Error");
@@ -220,29 +200,36 @@ namespace SIGO_WinForm
                 return;
             }
 
-            // Confirmación
             if (MessageBox.Show($"Total a pagar: {txtTotal.Text}\n¿Desea finalizar la venta?", "Confirmar Venta", MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 return;
             }
 
+            // --- Guardamos los datos ANTES de que se borren ---
+            string totalRecibo = txtTotal.Text;
+            string subtotalRecibo = txtSubtotal.Text;
+            decimal descuentoRecibo = numDescuento.Value;
+            string metodoPagoRecibo = cmbMetodoPago.Text;
+            string pacienteRecibo = lblNombrePaciente.Text.Replace("Cliente: ", "");
+            DataTable carritoRecibo = carrito.Copy(); // ¡Importante! Copiamos el carrito
+
             try
             {
-                // 1. Guardar la Venta principal
-                decimal totalVenta = decimal.Parse(txtTotal.Text, System.Globalization.NumberStyles.Currency);
-                string metodoPago = cmbMetodoPago.Text;
+                decimal totalVenta = decimal.Parse(totalRecibo, System.Globalization.NumberStyles.Currency);
+                string metodoPago = metodoPagoRecibo;
+                DateTime fechaVenta = DateTime.Now;
 
-                // Usamos la consulta que creamos (InsertarVenta)
-                // Nos devuelve el ID de la venta recién creada
+                // 1. Guardar la Venta principal
                 int nuevaVentaID = (int)adaptadorVentas.InsertarVenta(
                     (int)idPacienteSeleccionado,
-                    idUsuarioActual, // El ID del vendedor (hardcodeado por ahora)
+                    idUsuarioActual,
+                    fechaVenta,
                     metodoPago,
                     totalVenta
                 );
 
                 // 2. Guardar el Detalle de la Venta (el carrito)
-                bool necesitaOrdenTrabajo = false; // Bandera para el Módulo 4
+                bool necesitaOrdenTrabajo = false;
 
                 foreach (DataRow filaCarrito in carrito.Rows)
                 {
@@ -250,18 +237,13 @@ namespace SIGO_WinForm
                     int cantidad = (int)filaCarrito["Cantidad"];
                     decimal precio = (decimal)filaCarrito["PrecioUnitario"];
 
-                    // Usamos la consulta que creamos
                     adaptadorDetalle.InsertarDetalle(nuevaVentaID, productoID, cantidad, precio);
-
-                    // 3. Descontar el Stock (Módulo 2)
-                    // Usamos la consulta de UPDATE que creamos
                     adaptadorProductos.ActualizarStock(cantidad, productoID);
 
-                    // 4. Verificamos si necesita Orden de Trabajo (Módulo 4)
-                    // (Asumimos que la CategoriaID 2 = "Lentes de Contacto" o algo que requiera receta)
-                    // Puedes cambiar este '2' por el ID de categoría correcto
                     var producto = (adaptadorProductos.GetDataByProductoID(productoID))[0];
-                    if ((int)producto["CategoriaID"] == 2)
+                    int catID = (int)producto["CategoriaID"];
+
+                    if (catID == 2 || catID == 3) // Lentes de Contacto (2) o Solución (3)
                     {
                         necesitaOrdenTrabajo = true;
                     }
@@ -270,14 +252,27 @@ namespace SIGO_WinForm
                 // 5. Crear Orden de Trabajo (Módulo 4)
                 if (necesitaOrdenTrabajo)
                 {
-                    // Usamos la consulta que creamos
-                    adaptadorOrdenes.CrearOrdenDeTrabajo(nuevaVentaID);
+                    adaptadorOrdenes.CrearOrdenDeTrabajo(nuevaVentaID, fechaVenta);
                 }
 
+                // --- ¡AQUÍ ESTÁ EL CAMBIO! ---
                 // 6. Limpieza y Éxito
-                MessageBox.Show($"¡Venta #{nuevaVentaID} finalizada con éxito!", "Venta Completada");
-                LimpiarFormularioVenta();
 
+                // En lugar de un MessageBox, mostramos el formulario de Recibo
+                frmRecibo recibo = new frmRecibo(
+                    carritoRecibo,
+                    totalRecibo,
+                    subtotalRecibo,
+                    descuentoRecibo,
+                    metodoPagoRecibo,
+                    pacienteRecibo,
+                    nuevaVentaID
+                );
+
+                recibo.MdiParent = this.MdiParent; // Para que se abra dentro del MDI
+                recibo.Show();
+
+                LimpiarFormularioVenta(); // Limpiamos el POS para la siguiente venta
             }
             catch (Exception ex)
             {
@@ -292,13 +287,13 @@ namespace SIGO_WinForm
             lblNombrePaciente.Text = "Cliente: (Ninguno)";
             txtBuscarPaciente.Text = "";
 
-            carrito.Clear(); // Vacía el DataGridView
-            ActualizarTotales(); // Pone los totales en $0.00
+            carrito.Clear();
+            ActualizarTotales();
 
             numDescuento.Value = 0;
             numCantidad.Value = 1;
             cmbMetodoPago.SelectedIndex = 0;
-            CargarProductosEnComboBox(); // Recarga los productos (con el stock actualizado)
+            CargarProductosEnComboBox();
         }
 
         // --- Tus eventos fantasma (los dejamos para que el diseñador no falle) ---
@@ -306,6 +301,5 @@ namespace SIGO_WinForm
         {
 
         }
-        // ---- FIN DE CÓDIGO NUEVO ----
     }
 }

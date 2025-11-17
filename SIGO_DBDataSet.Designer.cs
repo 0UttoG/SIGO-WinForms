@@ -7173,7 +7173,7 @@ SELECT OrdenID, VentaID, FechaCreacion, Estado, FechaEntregaEstimada, FechaEntre
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[4];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[5];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT OrdenID, VentaID, FechaCreacion, Estado, FechaEntregaEstimada, FechaEntreg" +
@@ -7187,15 +7187,21 @@ SELECT OrdenID, VentaID, FechaCreacion, Estado, FechaEntregaEstimada, FechaEntre
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OrdenID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "OrdenID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "INSERT INTO OrdenesTrabajo (VentaID, FechaCreacion, Estado) \r\nVALUES (@VentaID, G" +
-                "ETDATE(), \'Pendiente\')";
+            this._commandCollection[2].CommandText = "INSERT INTO OrdenesTrabajo (VentaID, FechaCreacion, Estado) \r\nVALUES (@VentaID, @" +
+                "FechaCreacion, \'Pendiente\')";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@VentaID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "VentaID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FechaCreacion", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "FechaCreacion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[3].Connection = this.Connection;
             this._commandCollection[3].CommandText = "SELECT * FROM OrdenesTrabajo WHERE (Estado = @Estado)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Estado", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Estado", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "SELECT * FROM OrdenesTrabajo WHERE (VentaID = @VentaID)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@VentaID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "VentaID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7253,6 +7259,32 @@ SELECT OrdenID, VentaID, FechaCreacion, Estado, FechaEntregaEstimada, FechaEntre
             else {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((string)(Estado));
             }
+            SIGO_DBDataSet.OrdenesTrabajoDataTable dataTable = new SIGO_DBDataSet.OrdenesTrabajoDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByVentaID(SIGO_DBDataSet.OrdenesTrabajoDataTable dataTable, int VentaID) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(VentaID));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual SIGO_DBDataSet.OrdenesTrabajoDataTable GetDataByVentaID(int VentaID) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(VentaID));
             SIGO_DBDataSet.OrdenesTrabajoDataTable dataTable = new SIGO_DBDataSet.OrdenesTrabajoDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -7507,9 +7539,15 @@ SELECT OrdenID, VentaID, FechaCreacion, Estado, FechaEntregaEstimada, FechaEntre
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int CrearOrdenDeTrabajo(int VentaID) {
+        public virtual int CrearOrdenDeTrabajo(int VentaID, global::System.Nullable<global::System.DateTime> FechaCreacion) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
             command.Parameters[0].Value = ((int)(VentaID));
+            if ((FechaCreacion.HasValue == true)) {
+                command.Parameters[1].Value = ((System.DateTime)(FechaCreacion.Value));
+            }
+            else {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -9895,7 +9933,7 @@ SELECT VentaID, PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalVent
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[3];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT VentaID, PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalVenta" +
@@ -9903,14 +9941,21 @@ SELECT VentaID, PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalVent
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "INSERT INTO Ventas (PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalV" +
-                "enta) \r\nVALUES (@PacienteID, @UsuarioVendedorID, GETDATE(), @MetodoPago, @TotalV" +
-                "enta);\r\n\r\nSELECT SCOPE_IDENTITY();";
+            this._commandCollection[1].CommandText = "SELECT VentaID, PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalVenta" +
+                " \r\nFROM Ventas \r\nWHERE (PacienteID = @PacienteID)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PacienteID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "PacienteID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UsuarioVendedorID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "UsuarioVendedorID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MetodoPago", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "MetodoPago", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TotalVenta", global::System.Data.SqlDbType.Decimal, 9, global::System.Data.ParameterDirection.Input, 12, 2, "TotalVenta", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "INSERT INTO Ventas (PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalV" +
+                "enta) \r\nVALUES (@PacienteID, @UsuarioVendedorID, @FechaVenta, @MetodoPago, @Tota" +
+                "lVenta);\r\n\r\nSELECT SCOPE_IDENTITY();";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PacienteID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "PacienteID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UsuarioVendedorID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "UsuarioVendedorID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FechaVenta", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "FechaVenta", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MetodoPago", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "MetodoPago", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TotalVenta", global::System.Data.SqlDbType.Decimal, 9, global::System.Data.ParameterDirection.Input, 12, 2, "TotalVenta", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -9932,6 +9977,32 @@ SELECT VentaID, PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalVent
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual SIGO_DBDataSet.VentasDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            SIGO_DBDataSet.VentasDataTable dataTable = new SIGO_DBDataSet.VentasDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByPacienteID(SIGO_DBDataSet.VentasDataTable dataTable, int PacienteID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(PacienteID));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual SIGO_DBDataSet.VentasDataTable GetDataByPacienteID(int PacienteID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(PacienteID));
             SIGO_DBDataSet.VentasDataTable dataTable = new SIGO_DBDataSet.VentasDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -10140,17 +10211,23 @@ SELECT VentaID, PacienteID, UsuarioVendedorID, FechaVenta, MetodoPago, TotalVent
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int InsertarVenta(int PacienteID, int UsuarioVendedorID, string MetodoPago, decimal TotalVenta) {
-            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
+        public virtual int InsertarVenta(int PacienteID, int UsuarioVendedorID, global::System.Nullable<global::System.DateTime> FechaVenta, string MetodoPago, decimal TotalVenta) {
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
             command.Parameters[0].Value = ((int)(PacienteID));
             command.Parameters[1].Value = ((int)(UsuarioVendedorID));
-            if ((MetodoPago == null)) {
-                command.Parameters[2].Value = global::System.DBNull.Value;
+            if ((FechaVenta.HasValue == true)) {
+                command.Parameters[2].Value = ((System.DateTime)(FechaVenta.Value));
             }
             else {
-                command.Parameters[2].Value = ((string)(MetodoPago));
+                command.Parameters[2].Value = global::System.DBNull.Value;
             }
-            command.Parameters[3].Value = ((decimal)(TotalVenta));
+            if ((MetodoPago == null)) {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[3].Value = ((string)(MetodoPago));
+            }
+            command.Parameters[4].Value = ((decimal)(TotalVenta));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
