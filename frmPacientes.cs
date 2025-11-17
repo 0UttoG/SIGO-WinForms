@@ -297,5 +297,27 @@ namespace SIGO_WinForm
         {
 
         }
+
+        private void btnAgregarExamen_Click(object sender, EventArgs e)
+        {
+            // 1. Verificamos que haya un paciente seleccionado
+            if (string.IsNullOrEmpty(idpaciente)) // (Usando la variable que Néstor ya usaba)
+            {
+                MessageBox.Show("Por favor, seleccione un paciente de la lista primero.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Obtenemos los datos del paciente seleccionado
+            int id = Convert.ToInt32(idpaciente);
+            string nombre = txtNombreCompleto.Text;
+
+            // 3. Abrimos el formulario de Examen USANDO EL NUEVO CONSTRUCTOR
+            frmExamen nuevoExamen = new frmExamen(id, nombre);
+
+            // (Opcional, pero recomendado)
+            // nuevoExamen.MdiParent = this.MdiParent; 
+
+            nuevoExamen.Show();
+        }
     }
 }

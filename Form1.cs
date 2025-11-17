@@ -54,5 +54,10 @@ namespace SIGO_WinForm
             OrdenesdeTrabajo.MdiParent = this;
             OrdenesdeTrabajo.Show();
         }
+
+        private void examenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Para agregar un examen, debe ir al módulo de 'Pacientes', seleccionar un paciente y usar el botón 'Agregar Examen' dentro de esa pantalla.");
+        }
     }
 }

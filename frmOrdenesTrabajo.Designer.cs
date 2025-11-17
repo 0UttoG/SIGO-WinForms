@@ -58,9 +58,9 @@
             // 
             // btnActualizarEstado
             // 
-            this.btnActualizarEstado.Location = new System.Drawing.Point(796, 12);
+            this.btnActualizarEstado.Location = new System.Drawing.Point(898, 21);
             this.btnActualizarEstado.Name = "btnActualizarEstado";
-            this.btnActualizarEstado.Size = new System.Drawing.Size(150, 63);
+            this.btnActualizarEstado.Size = new System.Drawing.Size(188, 105);
             this.btnActualizarEstado.TabIndex = 2;
             this.btnActualizarEstado.Text = "Actualizar Estado";
             this.btnActualizarEstado.UseVisualStyleBackColor = true;
@@ -79,9 +79,9 @@
             // 
             // btnMostrarTodas
             // 
-            this.btnMostrarTodas.Location = new System.Drawing.Point(579, 12);
+            this.btnMostrarTodas.Location = new System.Drawing.Point(601, 21);
             this.btnMostrarTodas.Name = "btnMostrarTodas";
-            this.btnMostrarTodas.Size = new System.Drawing.Size(150, 63);
+            this.btnMostrarTodas.Size = new System.Drawing.Size(200, 105);
             this.btnMostrarTodas.TabIndex = 4;
             this.btnMostrarTodas.Text = "Mostrar Todas";
             this.btnMostrarTodas.UseVisualStyleBackColor = true;

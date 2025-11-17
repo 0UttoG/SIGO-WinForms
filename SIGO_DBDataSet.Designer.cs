@@ -6399,13 +6399,30 @@ SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cili
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cilin" +
                 "dro, OD_Eje, OD_Adicion, OS_Esfera, OS_Cilindro, OS_Eje, OS_Adicion, Observacion" +
                 "es FROM dbo.Examenes";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = @"INSERT INTO [dbo].[Examenes] ([PacienteID], [UsuarioOptometraID], [FechaExamen], [OD_Esfera], [OD_Cilindro], [OD_Eje], [OD_Adicion], [OS_Esfera], [OS_Cilindro], [OS_Eje], [OS_Adicion], [Observaciones]) VALUES (@PacienteID, @UsuarioOptometraID, @FechaExamen, @OD_Esfera, @OD_Cilindro, @OD_Eje, @OD_Adicion, @OS_Esfera, @OS_Cilindro, @OS_Eje, @OS_Adicion, @Observaciones);
+SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cilindro, OD_Eje, OD_Adicion, OS_Esfera, OS_Cilindro, OS_Eje, OS_Adicion, Observaciones FROM Examenes WHERE (ExamenID = SCOPE_IDENTITY())";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PacienteID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "PacienteID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UsuarioOptometraID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "UsuarioOptometraID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FechaExamen", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "FechaExamen", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Esfera", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Esfera", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Cilindro", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Cilindro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Eje", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "OD_Eje", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Adicion", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Adicion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Esfera", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Esfera", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Cilindro", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Cilindro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Eje", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "OS_Eje", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Adicion", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Adicion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Observaciones", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "Observaciones", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6854,6 +6871,91 @@ SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cili
                     global::System.Nullable<int> Original_OS_Eje, 
                     global::System.Nullable<decimal> Original_OS_Adicion) {
             return this.Update(PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cilindro, OD_Eje, OD_Adicion, OS_Esfera, OS_Cilindro, OS_Eje, OS_Adicion, Observaciones, Original_ExamenID, Original_PacienteID, Original_UsuarioOptometraID, Original_FechaExamen, Original_OD_Esfera, Original_OD_Cilindro, Original_OD_Eje, Original_OD_Adicion, Original_OS_Esfera, Original_OS_Cilindro, Original_OS_Eje, Original_OS_Adicion, Original_ExamenID);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int InsertarExamen(int PacienteID, int UsuarioOptometraID, global::System.Nullable<global::System.DateTime> FechaExamen, global::System.Nullable<decimal> OD_Esfera, global::System.Nullable<decimal> OD_Cilindro, global::System.Nullable<int> OD_Eje, global::System.Nullable<decimal> OD_Adicion, global::System.Nullable<decimal> OS_Esfera, global::System.Nullable<decimal> OS_Cilindro, global::System.Nullable<int> OS_Eje, global::System.Nullable<decimal> OS_Adicion, string Observaciones) {
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
+            command.Parameters[0].Value = ((int)(PacienteID));
+            command.Parameters[1].Value = ((int)(UsuarioOptometraID));
+            if ((FechaExamen.HasValue == true)) {
+                command.Parameters[2].Value = ((System.DateTime)(FechaExamen.Value));
+            }
+            else {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            if ((OD_Esfera.HasValue == true)) {
+                command.Parameters[3].Value = ((decimal)(OD_Esfera.Value));
+            }
+            else {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            if ((OD_Cilindro.HasValue == true)) {
+                command.Parameters[4].Value = ((decimal)(OD_Cilindro.Value));
+            }
+            else {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((OD_Eje.HasValue == true)) {
+                command.Parameters[5].Value = ((int)(OD_Eje.Value));
+            }
+            else {
+                command.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            if ((OD_Adicion.HasValue == true)) {
+                command.Parameters[6].Value = ((decimal)(OD_Adicion.Value));
+            }
+            else {
+                command.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((OS_Esfera.HasValue == true)) {
+                command.Parameters[7].Value = ((decimal)(OS_Esfera.Value));
+            }
+            else {
+                command.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            if ((OS_Cilindro.HasValue == true)) {
+                command.Parameters[8].Value = ((decimal)(OS_Cilindro.Value));
+            }
+            else {
+                command.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            if ((OS_Eje.HasValue == true)) {
+                command.Parameters[9].Value = ((int)(OS_Eje.Value));
+            }
+            else {
+                command.Parameters[9].Value = global::System.DBNull.Value;
+            }
+            if ((OS_Adicion.HasValue == true)) {
+                command.Parameters[10].Value = ((decimal)(OS_Adicion.Value));
+            }
+            else {
+                command.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((Observaciones == null)) {
+                command.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[11].Value = ((string)(Observaciones));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
         }
     }
     
