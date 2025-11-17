@@ -6399,7 +6399,7 @@ SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cili
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[3];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cilin" +
@@ -6408,21 +6408,26 @@ SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cili
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"INSERT INTO [dbo].[Examenes] ([PacienteID], [UsuarioOptometraID], [FechaExamen], [OD_Esfera], [OD_Cilindro], [OD_Eje], [OD_Adicion], [OS_Esfera], [OS_Cilindro], [OS_Eje], [OS_Adicion], [Observaciones]) VALUES (@PacienteID, @UsuarioOptometraID, @FechaExamen, @OD_Esfera, @OD_Cilindro, @OD_Eje, @OD_Adicion, @OS_Esfera, @OS_Cilindro, @OS_Eje, @OS_Adicion, @Observaciones);
-SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cilindro, OD_Eje, OD_Adicion, OS_Esfera, OS_Cilindro, OS_Eje, OS_Adicion, Observaciones FROM Examenes WHERE (ExamenID = SCOPE_IDENTITY())";
+            this._commandCollection[1].CommandText = "SELECT * FROM Examenes WHERE (PacienteID = @PacienteID)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PacienteID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "PacienteID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UsuarioOptometraID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "UsuarioOptometraID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FechaExamen", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "FechaExamen", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Esfera", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Esfera", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Cilindro", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Cilindro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Eje", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "OD_Eje", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Adicion", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Adicion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Esfera", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Esfera", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Cilindro", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Cilindro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Eje", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "OS_Eje", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Adicion", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Adicion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Observaciones", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "Observaciones", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = @"INSERT INTO [dbo].[Examenes] ([PacienteID], [UsuarioOptometraID], [FechaExamen], [OD_Esfera], [OD_Cilindro], [OD_Eje], [OD_Adicion], [OS_Esfera], [OS_Cilindro], [OS_Eje], [OS_Adicion], [Observaciones]) VALUES (@PacienteID, @UsuarioOptometraID, @FechaExamen, @OD_Esfera, @OD_Cilindro, @OD_Eje, @OD_Adicion, @OS_Esfera, @OS_Cilindro, @OS_Eje, @OS_Adicion, @Observaciones);
+SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cilindro, OD_Eje, OD_Adicion, OS_Esfera, OS_Cilindro, OS_Eje, OS_Adicion, Observaciones FROM Examenes WHERE (ExamenID = SCOPE_IDENTITY())";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PacienteID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "PacienteID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UsuarioOptometraID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "UsuarioOptometraID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FechaExamen", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "FechaExamen", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Esfera", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Esfera", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Cilindro", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Cilindro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Eje", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "OD_Eje", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OD_Adicion", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OD_Adicion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Esfera", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Esfera", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Cilindro", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Cilindro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Eje", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "OS_Eje", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OS_Adicion", global::System.Data.SqlDbType.Decimal, 5, global::System.Data.ParameterDirection.Input, 5, 2, "OS_Adicion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Observaciones", global::System.Data.SqlDbType.NVarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "Observaciones", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6444,6 +6449,32 @@ SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cili
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual SIGO_DBDataSet.ExamenesDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            SIGO_DBDataSet.ExamenesDataTable dataTable = new SIGO_DBDataSet.ExamenesDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByPacienteID(SIGO_DBDataSet.ExamenesDataTable dataTable, int PacienteID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(PacienteID));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual SIGO_DBDataSet.ExamenesDataTable GetDataByPacienteID(int PacienteID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(PacienteID));
             SIGO_DBDataSet.ExamenesDataTable dataTable = new SIGO_DBDataSet.ExamenesDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -6878,7 +6909,7 @@ SELECT ExamenID, PacienteID, UsuarioOptometraID, FechaExamen, OD_Esfera, OD_Cili
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertarExamen(int PacienteID, int UsuarioOptometraID, global::System.Nullable<global::System.DateTime> FechaExamen, global::System.Nullable<decimal> OD_Esfera, global::System.Nullable<decimal> OD_Cilindro, global::System.Nullable<int> OD_Eje, global::System.Nullable<decimal> OD_Adicion, global::System.Nullable<decimal> OS_Esfera, global::System.Nullable<decimal> OS_Cilindro, global::System.Nullable<int> OS_Eje, global::System.Nullable<decimal> OS_Adicion, string Observaciones) {
-            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
             command.Parameters[0].Value = ((int)(PacienteID));
             command.Parameters[1].Value = ((int)(UsuarioOptometraID));
             if ((FechaExamen.HasValue == true)) {

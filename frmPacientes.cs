@@ -15,7 +15,13 @@ namespace SIGO_WinForm
 
     {
         string idpaciente;
+
+        // --- ¡AQUÍ ESTÁ LA LÍNEA #1 QUE FALTABA! ---
+        // Instanciamos el adaptador de Pacientes Y el de Exámenes
         PacientesTableAdapter pacientes = new PacientesTableAdapter();
+        ExamenesTableAdapter adaptadorExamenes = new ExamenesTableAdapter();
+
+
         public frmPacientes()
         {
             InitializeComponent();
@@ -33,7 +39,7 @@ namespace SIGO_WinForm
 
         public void cargarpacientes()
         {
-            // Usar un try-catch es buena práctica por si falla la conexión a la DB
+            // (Tu código original, está perfecto)
             try
             {
                 dgvPacientes.DataSource = pacientes.GetData();
@@ -46,32 +52,27 @@ namespace SIGO_WinForm
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
-            // 1. Obtenemos y limpiamos los datos de los campos
-            string nombre = txtNombreCompleto.Text.Trim(); // .Trim() quita espacios al inicio y final
+            // (Tu código original, está perfecto)
+            string nombre = txtNombreCompleto.Text.Trim();
             string telefono = txtTelefono.Text.Trim();
             string direccion = txtDireccion.Text.Trim();
             string email = txtEmail.Text.Trim();
 
-            // 2. Validación de campos vacíos
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(telefono) ||
                 string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(email))
             {
                 MessageBox.Show("Todos los campos son obligatorios.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; // Detiene la ejecución si hay campos vacíos
+                return;
             }
 
-            // 3. Validación de formato de email (básica)
             if (!email.Contains("@") || !email.Contains("."))
             {
                 MessageBox.Show("El formato del email no es válido. Debe contener '@' y un dominio.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // 4. Validación de duplicados
-            var dtPacientes = pacientes.GetData(); // Obtenemos la tabla de pacientes actual
+            var dtPacientes = pacientes.GetData();
 
-            // Comprobamos si el email ya existe (ignorando mayúsculas/minúsculas)
-            // Asegúrate de que tu columna se llame "Email" en la base de datos
             bool emailExists = dtPacientes.AsEnumerable()
                 .Any(row => row.Field<string>("Email").Equals(email, StringComparison.OrdinalIgnoreCase));
 
@@ -81,8 +82,6 @@ namespace SIGO_WinForm
                 return;
             }
 
-            // Comprobamos si el nombre completo ya existe (si también debe ser único)
-            // Asegúrate de que tu columna se llame "NombreCompleto"
             bool nameExists = dtPacientes.AsEnumerable()
                 .Any(row => row.Field<string>("NombreCompleto").Equals(nombre, StringComparison.OrdinalIgnoreCase));
 
@@ -92,39 +91,33 @@ namespace SIGO_WinForm
                 return;
             }
 
-            // 5. Si todas las validaciones pasan, insertamos
             try
             {
                 pacientes.InsertPacientes(nombre, telefono, direccion, email);
-                cargarpacientes(); // Recargamos el DataGridView con el nuevo dato
+                cargarpacientes();
                 MessageBox.Show("Paciente guardado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LimpiarCampos(); // Limpiamos los campos después de guardar
+                LimpiarCampos();
             }
             catch (Exception ex)
             {
-                // Capturamos cualquier error que ocurra durante la inserción
                 MessageBox.Show($"Error al guardar el paciente: {ex.Message}", "Error de Base de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // Método auxiliar para limpiar los TextBoxes
         private void LimpiarCampos()
         {
+            // (Tu código original, está perfecto)
             txtNombreCompleto.Text = "";
             txtTelefono.Text = "";
             txtDireccion.Text = "";
             txtEmail.Text = "";
-
-            // Añade esta línea para "des-seleccionar" el paciente
             idpaciente = null;
-
-            txtNombreCompleto.Focus(); // Ponemos el foco de nuevo en el primer campo
+            txtNombreCompleto.Focus();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            // 1. Verificar si hay una fila seleccionada
-            // Es mejor usar CurrentRow en lugar de SelectedRows por si solo han hecho clic en una celda
+            // (Tu código original, está perfecto)
             if (dgvPacientes.CurrentRow == null)
             {
                 MessageBox.Show("Por favor, seleccione un paciente de la lista para eliminar.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -133,34 +126,20 @@ namespace SIGO_WinForm
 
             try
             {
-                // 2. Obtener los datos de la fila seleccionada
                 DataRowView drv = (DataRowView)dgvPacientes.CurrentRow.DataBoundItem;
+                int idParaBorrar = (int)drv["PacienteID"];
+                string nombreParaBorrar = (string)drv["NombreCompleto"];
 
-                // !! IMPORTANTE: Asume que tu columna de ID se llama "Id"
-                // Si se llama "PacienteID" o diferente, cámbialo aquí.
-                // Y lo convertimos al tipo de dato correcto (usualmente 'int')
-                // Corregido
-                int idParaBorrar = (int)drv["PacienteID"]; 
-                string nombreParaBorrar = (string)drv["NombreCompleto"]; // Para el mensaje
-
-                // 3. Pedir confirmación (¡Importante!)
                 var confirmResult = MessageBox.Show($"¿Está seguro de que desea eliminar a: {nombreParaBorrar}?",
-                                                 "Confirmar Eliminación",
-                                                 MessageBoxButtons.YesNo,
-                                                 MessageBoxIcon.Warning);
+                                                  "Confirmar Eliminación",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning);
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    // 4. Si el usuario dice "Sí", proceder con la eliminación
                     try
                     {
-                        // !! IMPORTANTE:
-                        // Tu código usaba "DeletePaciente". El método por defecto del TableAdapter
-                        // para borrar por ID suele llamarse "Delete". 
-                        // Asegúrate de usar el nombre correcto.
                         pacientes.DeletePaciente(idParaBorrar);
-
-                        // 5. Recargar los datos y limpiar
                         cargarpacientes();
                         LimpiarCampos();
                         MessageBox.Show("Paciente eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -170,11 +149,9 @@ namespace SIGO_WinForm
                         MessageBox.Show($"Error al eliminar el paciente: {ex.Message}", "Error de Base de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                // Si el usuario dice "No", no hacemos nada.
             }
             catch (Exception ex)
             {
-                // Este catch captura errores al obtener el ID (ej. la columna "Id" no se llama así)
                 MessageBox.Show($"Error al obtener los datos de la fila: {ex.Message}\n\nAsegúrese de que su columna de ID se llame 'Id'.", "Error de Selección", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -184,24 +161,21 @@ namespace SIGO_WinForm
             // Verificamos que el clic no sea en el encabezado (e.RowIndex < 0)
             if (e.RowIndex >= 0)
             {
-                // Obtenemos la fila que se seleccionó
                 DataGridViewRow row = dgvPacientes.Rows[e.RowIndex];
-
-                // !! IMPORTANTE: Asegúrate de que los nombres de las columnas
-                // ("Id", "NombreCompleto", "Telefono", etc.)
-                // coincidan exactamente con los de tu base de datos.
-
                 try
                 {
                     // Rellenamos los campos de texto con los valores de la fila
-                    // Guardamos el ID en la variable que ya tenías
                     idpaciente = row.Cells["PacienteID"].Value.ToString();
-
-                    // Rellenamos los textboxes
                     txtNombreCompleto.Text = row.Cells["NombreCompleto"].Value.ToString();
                     txtTelefono.Text = row.Cells["Telefono"].Value.ToString();
                     txtDireccion.Text = row.Cells["Direccion"].Value.ToString();
                     txtEmail.Text = row.Cells["Email"].Value.ToString();
+
+                    // --- ¡AQUÍ ESTÁ LA LÍNEA #2 QUE FALTABA! ---
+                    // Cargamos el historial de exámenes en el dgvExamenes
+                    int pacienteID = Convert.ToInt32(idpaciente);
+                    dgvExamenes.DataSource = adaptadorExamenes.GetDataByPacienteID(pacienteID);
+
                 }
                 catch (Exception ex)
                 {
@@ -212,20 +186,18 @@ namespace SIGO_WinForm
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            // 1. Verificar si se ha seleccionado un paciente (el ID no está vacío)
+            // (Tu código original, está perfecto)
             if (string.IsNullOrEmpty(idpaciente))
             {
                 MessageBox.Show("Por favor, seleccione un paciente de la lista para actualizar.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Obtenemos y limpiamos los datos de los campos
             string nombre = txtNombreCompleto.Text.Trim();
             string telefono = txtTelefono.Text.Trim();
             string direccion = txtDireccion.Text.Trim();
             string email = txtEmail.Text.Trim();
 
-            // 3. Validación de campos vacíos (igual que en "Nuevo")
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(telefono) ||
                 string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(email))
             {
@@ -233,14 +205,12 @@ namespace SIGO_WinForm
                 return;
             }
 
-            // 4. Validación de formato de email (básica)
             if (!email.Contains("@") || !email.Contains("."))
             {
                 MessageBox.Show("El formato del email no es válido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // 5. Convertir el ID a 'int' (¡importante!)
             int idParaActualizar;
             if (!int.TryParse(idpaciente, out idParaActualizar))
             {
@@ -248,26 +218,23 @@ namespace SIGO_WinForm
                 return;
             }
 
-            // 6. Si todas las validaciones pasan, actualizamos
             try
             {
-                // ¡Usamos el nuevo método que creamos!
                 pacientes.UpdatePaciente(nombre, telefono, direccion, email, idParaActualizar);
 
-                cargarpacientes(); // Recargamos el DataGridView
+                cargarpacientes();
                 MessageBox.Show("Paciente actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LimpiarCampos(); // Limpiamos los campos después de actualizar
+                LimpiarCampos();
             }
             catch (Exception ex)
             {
-                // Capturamos cualquier error que ocurra durante la actualización
                 MessageBox.Show($"Error al actualizar el paciente: {ex.Message}", "Error de Base de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            // 1. Obtenemos el término de búsqueda del TextBox
+            // (Tu código original, está perfecto)
             string terminoBusqueda = txtBuscarPaciente.Text.Trim();
 
             if (string.IsNullOrEmpty(terminoBusqueda))
@@ -278,13 +245,7 @@ namespace SIGO_WinForm
 
             try
             {
-                // 2. Preparamos el parámetro para la consulta LIKE
-                // Añadimos los '%' para que busque cualquier coincidencia
-                string parametroLike =terminoBusqueda;
-
-                // 3. Llamamos al nuevo método del TableAdapter
-                // y asignamos el resultado al DataGridView
-                // Corregido
+                string parametroLike = terminoBusqueda;
                 dgvPacientes.DataSource = pacientes.GetDataBy3(parametroLike);
             }
             catch (Exception ex)
@@ -300,24 +261,30 @@ namespace SIGO_WinForm
 
         private void btnAgregarExamen_Click(object sender, EventArgs e)
         {
-            // 1. Verificamos que haya un paciente seleccionado
-            if (string.IsNullOrEmpty(idpaciente)) // (Usando la variable que Néstor ya usaba)
+            // (Tu código original, está perfecto)
+            if (string.IsNullOrEmpty(idpaciente))
             {
                 MessageBox.Show("Por favor, seleccione un paciente de la lista primero.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Obtenemos los datos del paciente seleccionado
             int id = Convert.ToInt32(idpaciente);
             string nombre = txtNombreCompleto.Text;
 
-            // 3. Abrimos el formulario de Examen USANDO EL NUEVO CONSTRUCTOR
             frmExamen nuevoExamen = new frmExamen(id, nombre);
-
-            // (Opcional, pero recomendado)
-            // nuevoExamen.MdiParent = this.MdiParent; 
-
+            nuevoExamen.MdiParent = this.MdiParent;
             nuevoExamen.Show();
+        }
+
+        // --- Tus eventos fantasma (los dejamos) ---
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

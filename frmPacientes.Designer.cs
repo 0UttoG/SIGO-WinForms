@@ -47,10 +47,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtNombreCompleto = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgvExamenes = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPacientes)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvExamenes)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -262,14 +265,29 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.dgvExamenes);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1059, 525);
+            this.tabPage2.Size = new System.Drawing.Size(1059, 665);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Historial Clinico";
             this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // dgvExamenes
+            // 
+            this.dgvExamenes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvExamenes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvExamenes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvExamenes.Location = new System.Drawing.Point(4, 4);
+            this.dgvExamenes.Name = "dgvExamenes";
+            this.dgvExamenes.RowHeadersWidth = 51;
+            this.dgvExamenes.RowTemplate.Height = 24;
+            this.dgvExamenes.Size = new System.Drawing.Size(1051, 657);
+            this.dgvExamenes.TabIndex = 0;
+            this.dgvExamenes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // frmPacientes
             // 
@@ -286,6 +304,8 @@
             this.tabPage1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPacientes)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvExamenes)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -311,5 +331,6 @@
         private System.Windows.Forms.Button btnNuevo;
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnAgregarExamen;
+        private System.Windows.Forms.DataGridView dgvExamenes;
     }
 }
