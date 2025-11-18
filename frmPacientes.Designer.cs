@@ -51,8 +51,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvVentasHistorial = new System.Windows.Forms.DataGridView();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dgvOrdenesHistorial = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -62,8 +60,6 @@
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentasHistorial)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvOrdenesHistorial)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -301,7 +297,6 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.groupBox2);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
@@ -316,7 +311,7 @@
             this.groupBox2.Controls.Add(this.dgvVentasHistorial);
             this.groupBox2.Location = new System.Drawing.Point(8, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1043, 277);
+            this.groupBox2.Size = new System.Drawing.Size(1043, 653);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ventas Realizadas";
@@ -330,30 +325,8 @@
             this.dgvVentasHistorial.Name = "dgvVentasHistorial";
             this.dgvVentasHistorial.RowHeadersWidth = 51;
             this.dgvVentasHistorial.RowTemplate.Height = 24;
-            this.dgvVentasHistorial.Size = new System.Drawing.Size(1037, 256);
+            this.dgvVentasHistorial.Size = new System.Drawing.Size(1037, 632);
             this.dgvVentasHistorial.TabIndex = 0;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.dgvOrdenesHistorial);
-            this.groupBox3.Location = new System.Drawing.Point(11, 290);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1037, 225);
-            this.groupBox3.TabIndex = 1;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Órdenes de Laboratorio";
-            // 
-            // dgvOrdenesHistorial
-            // 
-            this.dgvOrdenesHistorial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvOrdenesHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOrdenesHistorial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvOrdenesHistorial.Location = new System.Drawing.Point(3, 18);
-            this.dgvOrdenesHistorial.Name = "dgvOrdenesHistorial";
-            this.dgvOrdenesHistorial.RowHeadersWidth = 51;
-            this.dgvOrdenesHistorial.RowTemplate.Height = 24;
-            this.dgvOrdenesHistorial.Size = new System.Drawing.Size(1031, 204);
-            this.dgvOrdenesHistorial.TabIndex = 0;
             // 
             // frmPacientes
             // 
@@ -375,8 +348,6 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentasHistorial)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvOrdenesHistorial)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -404,9 +375,7 @@
         private System.Windows.Forms.Button btnAgregarExamen;
         private System.Windows.Forms.DataGridView dgvExamenes;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dgvVentasHistorial;
-        private System.Windows.Forms.DataGridView dgvOrdenesHistorial;
     }
 }

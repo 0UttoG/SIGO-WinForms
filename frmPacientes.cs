@@ -180,7 +180,13 @@ namespace SIGO_WinForm
                     // Primero, cargamos las ventas de este paciente
                     var ventas = adaptadorVentas.GetDataByPacienteID(pacienteID);
                     dgvVentasHistorial.DataSource = ventas;
+                    
 
+
+
+
+                    /*
+                    //FuncionErronea
                     // --- 4. Cargamos las Órdenes de Laboratorio (Nuevo Método) ---
                     // Creamos una tabla temporal vacía para ir metiendo las órdenes
                     SIGO_DBDataSet.OrdenesTrabajoDataTable tablaOrdenesTemp = new SIGO_DBDataSet.OrdenesTrabajoDataTable();
@@ -202,6 +208,10 @@ namespace SIGO_WinForm
 
                     // Finalmente, mostramos la tabla temporal (llena o vacía) en el grid
                     dgvOrdenesHistorial.DataSource = tablaOrdenesTemp;
+                    */
+
+
+
                 }
                 catch (Exception ex)
                 {
