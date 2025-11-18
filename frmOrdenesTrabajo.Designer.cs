@@ -76,6 +76,7 @@
             this.chkListasParaEntrega.TabIndex = 3;
             this.chkListasParaEntrega.Text = "Mostrar solo \'Listas para Entrega";
             this.chkListasParaEntrega.UseVisualStyleBackColor = true;
+            this.chkListasParaEntrega.CheckedChanged += new System.EventHandler(this.chkListasParaEntrega_CheckedChanged);
             // 
             // btnMostrarTodas
             // 
