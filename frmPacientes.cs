@@ -15,11 +15,11 @@ namespace SIGO_WinForm
     {
         string idpaciente;
 
-        // Instanciamos TODOS los adaptadores que necesita este formulario
+        // Instanciamos los adaptadores
         PacientesTableAdapter pacientes = new PacientesTableAdapter();
         ExamenesTableAdapter adaptadorExamenes = new ExamenesTableAdapter();
         VentasTableAdapter adaptadorVentas = new VentasTableAdapter();
-        OrdenesTrabajoTableAdapter adaptadorOrdenes = new OrdenesTrabajoTableAdapter();
+        // OrdenesTrabajoTableAdapter adaptadorOrdenes ya no es necesario aquí
 
 
         public frmPacientes()
@@ -34,8 +34,7 @@ namespace SIGO_WinForm
 
         private void dgvPacientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Este evento está conectado por error en el Designer, pero lo ignoramos.
-            // Usamos dgvPacientes_CellClick en su lugar.
+            // Este evento es un fantasma, lo ignoramos.
         }
 
         public void cargarpacientes()
@@ -106,7 +105,6 @@ namespace SIGO_WinForm
 
         private void LimpiarCampos()
         {
-            // (Tu código original, está perfecto)
             txtNombreCompleto.Text = "";
             txtTelefono.Text = "";
             txtDireccion.Text = "";
@@ -117,7 +115,7 @@ namespace SIGO_WinForm
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            // (Tu código original, está perfecto)
+            // (Tu código de 'Eliminar' está perfecto)
             if (dgvPacientes.CurrentRow == null)
             {
                 MessageBox.Show("Por favor, seleccione un paciente de la lista para eliminar.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -156,15 +154,15 @@ namespace SIGO_WinForm
             }
         }
 
-        // --- ¡AQUÍ ESTÁ LA NUEVA ESTRATEGIA! ---
         private void dgvPacientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            // --- ¡AQUÍ ES DONDE CARGAMOS EL HISTORIAL! ---
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvPacientes.Rows[e.RowIndex];
                 try
                 {
-                    // 1. Rellenamos los campos (esto ya lo tenías)
+                    // 1. Rellenamos los campos 
                     idpaciente = row.Cells["PacienteID"].Value.ToString();
                     txtNombreCompleto.Text = row.Cells["NombreCompleto"].Value.ToString();
                     txtTelefono.Text = row.Cells["Telefono"].Value.ToString();
@@ -173,56 +171,25 @@ namespace SIGO_WinForm
 
                     int pacienteID = Convert.ToInt32(idpaciente);
 
-                    // 2. Cargamos el historial de exámenes (esto ya lo tenías)
+                    // 2. Cargamos el historial de exámenes (Historial Clínico)
                     dgvExamenes.DataSource = adaptadorExamenes.GetDataByPacienteID(pacienteID);
 
-                    // --- 3. Cargamos el Historial de Compras (Nuevo Método) ---
-                    // Primero, cargamos las ventas de este paciente
-                    var ventas = adaptadorVentas.GetDataByPacienteID(pacienteID);
-                    dgvVentasHistorial.DataSource = ventas;
-                    
+                    // 3. Cargamos el historial de Ventas (Historial de Compras)
+                    dgvVentasHistorial.DataSource = adaptadorVentas.GetDataByPacienteID(pacienteID);
 
-
-
-
-                    /*
-                    //FuncionErronea
-                    // --- 4. Cargamos las Órdenes de Laboratorio (Nuevo Método) ---
-                    // Creamos una tabla temporal vacía para ir metiendo las órdenes
-                    SIGO_DBDataSet.OrdenesTrabajoDataTable tablaOrdenesTemp = new SIGO_DBDataSet.OrdenesTrabajoDataTable();
-
-                    // Recorremos cada VENTA que encontramos
-                    foreach (DataRow ventaRow in ventas.Rows)
-                    {
-                        int ventaID = (int)ventaRow["VentaID"];
-
-                        // Usamos la nueva consulta 'GetDataByVentaID'
-                        var ordenes = adaptadorOrdenes.GetDataByVentaID(ventaID);
-
-                        // Si encontramos órdenes para esa venta, las copiamos a nuestra tabla temporal
-                        if (ordenes.Rows.Count > 0)
-                        {
-                            tablaOrdenesTemp.Merge(ordenes);
-                        }
-                    }
-
-                    // Finalmente, mostramos la tabla temporal (llena o vacía) en el grid
-                    dgvOrdenesHistorial.DataSource = tablaOrdenesTemp;
-                    */
-
-
+                    // El grid de órdenes de laboratorio fue eliminado para estabilidad.
 
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al seleccionar la fila: {ex.Message}", "Error de Selección", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error al seleccionar la fila: {ex.Message}\nAsegúrese de que los nombres de las columnas sean correctos.", "Error de Selección", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            // (Tu código original, está perfecto)
+            // (Tu código de 'Actualizar' está perfecto)
             if (string.IsNullOrEmpty(idpaciente))
             {
                 MessageBox.Show("Por favor, seleccione un paciente de la lista para actualizar.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -270,18 +237,19 @@ namespace SIGO_WinForm
 
         private void buscar_Click(object sender, EventArgs e)
         {
-            // (Tu código original, está perfecto)
+            // --- CÓDIGO CORREGIDO para la búsqueda en 3 campos ---
             string terminoBusqueda = txtBuscarPaciente.Text.Trim();
 
             if (string.IsNullOrEmpty(terminoBusqueda))
             {
-                MessageBox.Show("Por favor, ingrese un nombre para buscar.", "Campo Vacío");
+                MessageBox.Show("Por favor, ingrese un nombre, teléfono o email para buscar.", "Campo Vacío");
                 return;
             }
 
             try
             {
-                string parametroLike = terminoBusqueda;
+                string parametroLike = "%" + terminoBusqueda + "%";
+                // Usa la consulta que modificamos para buscar en 3 campos
                 dgvPacientes.DataSource = pacientes.GetDataBy3(parametroLike);
             }
             catch (Exception ex)
@@ -297,7 +265,7 @@ namespace SIGO_WinForm
 
         private void btnAgregarExamen_Click(object sender, EventArgs e)
         {
-            // (Tu código original, está perfecto)
+            // (Tu código de 'Agregar Examen' está perfecto)
             if (string.IsNullOrEmpty(idpaciente))
             {
                 MessageBox.Show("Por favor, seleccione un paciente de la lista primero.", "Selección Requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);

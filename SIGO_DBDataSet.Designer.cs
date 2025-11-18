@@ -7753,10 +7753,12 @@ SELECT NombreCompleto, Telefono, Direccion, Email, PacienteID FROM Pacientes WHE
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        PacienteID, NombreCompleto, Telefono, Direccion, Email\r\nFROM       " +
-                "     Pacientes\r\nWHERE        (NombreCompleto LIKE @NombreCompleto)";
+            this._commandCollection[1].CommandText = "SELECT PacienteID, NombreCompleto, Telefono, Direccion, Email\r\nFROM Pacientes\r\nWH" +
+                "ERE (NombreCompleto LIKE \'%\' + @BusquedaTermino + \'%\') OR\r\n      (Telefono LIKE " +
+                "\'%\' + @BusquedaTermino + \'%\') OR\r\n      (Email LIKE \'%\' + @BusquedaTermino + \'%\'" +
+                ")";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@NombreCompleto", global::System.Data.SqlDbType.NVarChar, 150, global::System.Data.ParameterDirection.Input, 0, 0, "NombreCompleto", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BusquedaTermino", global::System.Data.SqlDbType.NVarChar, 150, global::System.Data.ParameterDirection.Input, 0, 0, "NombreCompleto", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
             this._commandCollection[2].CommandText = "DELETE FROM Pacientes\r\nWHERE        (PacienteID = @Id)";
@@ -7814,13 +7816,13 @@ SELECT NombreCompleto, Telefono, Direccion, Email, PacienteID FROM Pacientes WHE
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
-        public virtual int busqueda1(SIGO_DBDataSet.PacientesDataTable dataTable, string NombreCompleto) {
+        public virtual int busqueda1(SIGO_DBDataSet.PacientesDataTable dataTable, string BusquedaTermino) {
             this.Adapter.SelectCommand = this.CommandCollection[1];
-            if ((NombreCompleto == null)) {
-                throw new global::System.ArgumentNullException("NombreCompleto");
+            if ((BusquedaTermino == null)) {
+                throw new global::System.ArgumentNullException("BusquedaTermino");
             }
             else {
-                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(NombreCompleto));
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(BusquedaTermino));
             }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -7833,13 +7835,13 @@ SELECT NombreCompleto, Telefono, Direccion, Email, PacienteID FROM Pacientes WHE
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
-        public virtual SIGO_DBDataSet.PacientesDataTable GetDataBy3(string NombreCompleto) {
+        public virtual SIGO_DBDataSet.PacientesDataTable GetDataBy3(string BusquedaTermino) {
             this.Adapter.SelectCommand = this.CommandCollection[1];
-            if ((NombreCompleto == null)) {
-                throw new global::System.ArgumentNullException("NombreCompleto");
+            if ((BusquedaTermino == null)) {
+                throw new global::System.ArgumentNullException("BusquedaTermino");
             }
             else {
-                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(NombreCompleto));
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(BusquedaTermino));
             }
             SIGO_DBDataSet.PacientesDataTable dataTable = new SIGO_DBDataSet.PacientesDataTable();
             this.Adapter.Fill(dataTable);
